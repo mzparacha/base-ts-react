@@ -18,6 +18,12 @@ export const GlobalStyle = createGlobalStyle`
     color: ${Colors.TX1};
   }
 
+  button{
+    width:80px;
+    height:30px;
+    color:${Colors.PureBlack}
+  }
+
   #root {
     display: flex;
     min-height: 100vh;
