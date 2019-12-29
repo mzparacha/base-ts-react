@@ -1,22 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Colors } from '../lib/style-guide'
-
-type AlertType = 'danger' | 'success' | 'warning'
+import { dialogDataType } from '../lib/types'
 
 interface AlertDialogProps {
-  title?: string
-  alertMessage?: string
-  alertType: AlertType
-  message?: string
-  buttonText?: string
-  isHidden: boolean
-  onSubmit: () => void
+  dialogData: dialogDataType
 }
 
 const AlertDialog: FC<AlertDialogProps> = (props) => {
   const {
-    className,
     title,
     alertMessage,
     buttonText,
@@ -24,48 +16,48 @@ const AlertDialog: FC<AlertDialogProps> = (props) => {
     message,
     isHidden,
     alertType
-  } = props
+  } = props.dialogData
 
-  const onClick = React.useCallback(() => {
-    onSubmit()
-  }, [onSubmit])
+  const { className } = props
 
   if (isHidden) {
     return null
-  } else {
-    return (
-      <div className={className}>
-        <div className="container">
-          <div className="dialog-header">
-            <span className="dialog-title">{title}</span>
-            <span className="close" onClick={onClick}>
-              &times;
-            </span>
-          </div>
-          <div className={`alert ${alertType}`}>
-            <span className={`alert-title ${alertType}`}>
-              {alertType.charAt(0).toUpperCase() + alertType.slice(1)}
-            </span>
-            <p className="alert-description">{alertMessage}</p>
-          </div>
-          <p className="dialog-description">{message}</p>
-          <button onClick={onClick} className="submit-button">
-            {buttonText ? buttonText : 'Archive'}
-          </button>
-        </div>
-      </div>
-    )
   }
+  return (
+    <div className={className}>
+      <div className="container">
+        <div className="dialog-header">
+          <span className="dialog-title">{title}</span>
+          <span className="close" onClick={() => onSubmit && onSubmit(false)}>
+            &times;
+          </span>
+        </div>
+        <div className={`alert ${alertType}`}>
+          <span className={`alert-title ${alertType}`}>
+            {alertType.charAt(0).toUpperCase() + alertType.slice(1)}
+          </span>
+          <p className="alert-description">{alertMessage}</p>
+        </div>
+        <p className="dialog-description">{message}</p>
+        <button
+          onClick={() => onSubmit && onSubmit(true)}
+          className="submit-button"
+        >
+          {buttonText ? buttonText : 'Archive'}
+        </button>
+      </div>
+    </div>
+  )
 }
 
 const StyledAlertDialog = styled(AlertDialog)`
-  position:absolute;
-  width:100%;
-  height:100%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
   display: flex;
-  background-color: rgb(0,0,0,0.7);
+  background-color: rgb(0, 0, 0, 0.7);
 
-  .container{
+  .container {
     position: absolute;
     width: 440px;
     height: 320px;
@@ -83,6 +75,7 @@ const StyledAlertDialog = styled(AlertDialog)`
     height: 20px;
     width: 360px;
   }
+
   .dialog-title {
     font-family: inherit;
     font-style: normal;
@@ -97,7 +90,7 @@ const StyledAlertDialog = styled(AlertDialog)`
     font-weight: 600;
     font-size: 20px;
     line-height: 20px;
-    cursor:pointer;
+    cursor: pointer;
   }
 
   .alert {
@@ -107,15 +100,15 @@ const StyledAlertDialog = styled(AlertDialog)`
     padding: 10px;
     padding-left: 20px;
 
-    &.warning{
+    &.warning {
       border-left: 3.89px solid ${Colors.warning};
     }
-  
-    &.danger{
+
+    &.danger {
       border-left: 3.89px solid ${Colors.Stalled};
     }
-  
-    &.success{
+
+    &.success {
       border-left: 3.89px solid ${Colors.OnTrack};
     }
   }
@@ -126,15 +119,15 @@ const StyledAlertDialog = styled(AlertDialog)`
     font-size: 16px;
     line-height: 16px;
 
-    &.warning{
+    &.warning {
       color: ${Colors.warning};
     }
-  
-    &.danger{
+
+    &.danger {
       color: ${Colors.Stalled};
     }
-  
-    &.success{
+
+    &.success {
       color: ${Colors.OnTrack};
     }
   }
@@ -155,14 +148,14 @@ const StyledAlertDialog = styled(AlertDialog)`
   .submit-button {
     width: 360px;
     height: 40px;
-    font-size:14px;
-    position:absolute;
-    bottom:40px;
-    color:${Colors.PureWhite}
+    font-size: 14px;
+    position: absolute;
+    bottom: 40px;
+    color: ${Colors.PureWhite};
     background-color: ${Colors.AccordBlue};
 
-    &:focus{
-        outline: none;
+    &:focus {
+      outline: none;
     }
   }
 `
